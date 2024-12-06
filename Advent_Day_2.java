@@ -12,6 +12,9 @@ public class Advent_Day_2 {
         boolean inc = false;
         boolean dec = false;
 
+        for (int i = 0; i < fileData.size(); i++) {
+        }
+
         for (int i = 0; i < fileData.size() - 1; i++) {
             String[] split = fileData.get(i).split(" ");
             int [] numberSplit = new int[split.length];
@@ -58,7 +61,15 @@ public class Advent_Day_2 {
         System.out.println("safe count: " + safeCount);
     }
 
+    public boolean ifSafe(int[] numList) {
+        for (int i = 0; i < numList.length - 1; i++) {
+            if (!((Math.abs(numList[i] - numList[i + 1]) <= 3) && (Math.abs(numList[i] - numList[i + 1]) >= 1))) {
+                return false;
+            }
+        }
 
+        return true;
+    }
 
     public static ArrayList<String> getFileData(String fileName) {
         ArrayList<String> fileData = new ArrayList<String>();
