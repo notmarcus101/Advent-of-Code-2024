@@ -8,53 +8,58 @@ public class Advent_Day_2 {
 
         ArrayList<String> fileData = getFileData("src/test.txt");
         int safeCount = 0;
-        boolean safe = true;
-        boolean inc = false;
-        boolean dec = false;
+        boolean safe;
+        boolean firstUnsafe;
+        System.out.println(fileData);
 
         for (int i = 0; i < fileData.size(); i++) {
-        }
+            safe = true;
+            firstUnsafe = true;
 
-        for (int i = 0; i < fileData.size() - 1; i++) {
             String[] split = fileData.get(i).split(" ");
             int [] numberSplit = new int[split.length];
             for (int j = 0; j < numberSplit.length; j++) {
                 numberSplit[j] = Integer.parseInt(split[j]);
             }
 
+            int[] differences = new int[numberSplit.length - 1];
             for (int j = 0; j < numberSplit.length - 1; j++) {
-                if (numberSplit[j] > numberSplit[j + 1]) {
-                    inc = true;
-                } else {
-                    dec = true;
-                }
+                differences[j] = numberSplit[j] - numberSplit[j + 1];
+            }
 
-                if (inc && dec) {
-                    safe = false;
-                    inc = false;
-                    dec = false;
-                }
-            }
-            for (int j = 0; j < numberSplit.length - 1; j++) {
-                if (safe && inc) {
-                    int differenceInc = numberSplit[j + 1] - numberSplit[j];
-                    if (!((differenceInc >= 1) && (differenceInc <= 3))) {
-                        safe = false;
-                    }
-                } else if (safe && dec) {
-                    int differenceDec = numberSplit[j] - numberSplit[j + 1];
-                    if (!((differenceDec >= 1) && (differenceDec <= 3))) {
-                        safe = false;
+            int countDiff = 0;
+
+            for (int num : differences) {
+                if (Math.abs(num) >= 1 && Math.abs(num) <= 3) {
+                    countDiff++;
+                } else {
+                    if (firstUnsafe) {
+                        countDiff++;
+                        firstUnsafe = false;
                     }
                 }
-                if (!safe) {
-                    break;
+            }
+
+            if (countDiff != differences.length) {
+                safe = false;
+            }
+
+            int countNorP = 0;
+
+            for (int num : differences) {
+                if ( num > 0) {
+                    countNorP++;
+                } else {
+                    countNorP--;
                 }
             }
+
+            if ((Math.abs(countNorP) != differences.length) && (Math.abs(countNorP) != differences.length - 1)) {
+                safe = false;
+            }
+
             if (safe) {
                 safeCount++;
-            } else {
-                safe = true;
             }
         }
 
